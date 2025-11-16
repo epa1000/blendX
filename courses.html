@@ -1,0 +1,2618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blandx Learning - All-In-One Learning Platform</title>
+  <link rel="shortcut icon" href="images/logo.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Arial", sans-serif;
+    }
+
+    :root {
+      --primary-color: #16a34a;
+      --secondary-color: #0f766e;
+      --dark-color: #1e293b;
+      --light-color: #f0fff4;
+      --text-color: #222;
+      --bg-color: #fff;
+      --card-bg: #f8fafc;
+      --border-color: #e2e8f0;
+      --shadow: 0 4px 12px rgba(0,0,0,0.1);
+      --transition: all 0.3s ease;
+    }
+
+    body.dark-mode {
+      --text-color: #f1f5f9;
+      --bg-color: #0f172a;
+      --card-bg: #1e293b;
+      --border-color: #334155;
+      --light-color: #1e293b;
+    }
+
+    body {
+      background: var(--bg-color);
+      color: var(--text-color);
+      overflow-x: hidden;
+      transition: var(--transition);
+    }
+
+    /* Scrollbar Styling */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--card-bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary-color);
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(- -secondary-color);
+    }
+
+    /* Navbar */
+    .navbar {
+      width: 100%;
+      background: var(--bg-color);
+      padding: 15px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      transition: var(--transition);
+    }
+
+    .navbar.scrolled {
+      padding: 10px 60px;
+      box-shadow: var(--shadow);
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--primary-color);
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo i {
+      font-size: 24px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--primary-color);
+      font-weight: 600;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: var(--secondary-color);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background: var(--primary-color);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .search-container {
+      position: relative;
+    }
+
+    .search-icon {
+      background: none;
+      border: none;
+      color: var(--primary-color);
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .search-box {
+      position: absolute;
+      right: 0;
+      top: 40px;
+      width: 0;
+      overflow: hidden;
+      transition: width 0.3s ease;
+    }
+
+    .search-box.active {
+      width: 250px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 10px 15px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-color);
+      color: var(--text-color);
+    }
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      color: var(--primary-color);
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .login-btn {
+      background: var(--primary-color);
+      color: white;
+      padding: 8px 18px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+    }
+
+    .login-btn:hover {
+      background: var(--secondary-color);
+      transform: translateY(-2px);
+    }
+
+    /* Mobile Menu */
+    .mobile-menu {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--primary-color);
+    }
+
+    .mobile-menu-container {
+      position: fixed;
+      top: 0;
+      right: -300px;
+      width: 300px;
+      height: 100vh;
+      background: var(--bg-color);
+      box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+      padding: 20px;
+      z-index: 1001;
+      transition: right 0.3s ease;
+    }
+
+    .mobile-menu-container.active {
+      right: 0;
+    }
+
+    .mobile-menu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .close-menu {
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--text-color);
+    }
+
+    .mobile-nav-links {
+      list-style: none;
+    }
+
+    .mobile-nav-links li {
+      margin-bottom: 15px;
+    }
+
+    .mobile-nav-links a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mobile-nav-links a i {
+      color: var(--primary-color);
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background: var(--bg-color);
+      min-width: 160px;
+      box-shadow: var(--shadow);
+      z-index: 1;
+      border-radius: 6px;
+      padding: 10px 0;
+      top: 100%;
+      left: 0;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-content a {
+      color: var(--text-color);
+      padding: 8px 15px;
+      text-decoration: none;
+      display: block;
+      transition: var(--transition);
+    }
+
+    .dropdown-content a:hover {
+      background: var(--card-bg);
+      color: var(--primary-color);
+    }
+
+    /* Add this to your existing CSS */
+  .category-icon {
+  font-size: 36px;
+  color: var(--primary-color);
+  margin-bottom: 15px;
+  width: 80px;
+  height: 80px;
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--light-color);
+  overflow: hidden;
+  margin: 0 auto 15px;
+}
+
+.category-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.category-card:hover .category-img {
+  transform: scale(1.1);
+}
+
+    /* Hero Section */
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 60px 80px;
+      background: linear-gradient(135deg, var(--light-color) 0%, var(--bg-color) 100%);
+      min-height: 80vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="%2316a34a" opacity="0.1"/><circle cx="80" cy="80" r="2" fill="%2316a34a" opacity="0.1"/><circle cx="50" cy="50" r="3" fill="%2316a34a" opacity="0.1"/></svg>');
+      opacity: 0.3;
+    }
+
+    .hero-text {
+      max-width: 50%;
+      position: relative;
+      z-index: 1;
+      animation: slideInLeft 1s ease-out;
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .hero-text h1 {
+      font-size: 40px;
+      font-weight: 800;
+      color: var(--dark-color);
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .hero-text p {
+      font-size: 18px;
+      line-height: 1.6;
+      color: var(--text-color);
+      margin-bottom: 25px;
+    }
+
+    .btn {
+      background: var(--primary-color);
+      color: #fff;
+      padding: 12px 28px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: var(--transition);
+      display: inline-block;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: var(--secondary-color);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary-color);
+      border: 2px solid var(--primary-color);
+      margin-left: 15px;
+    }
+
+    .btn-secondary:hover {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .hero-img {
+      position: relative;
+      z-index: 1;
+      animation: slideInRight 1s ease-out;
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .hero-img img {
+      width: 350px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .hero-img img:hover {
+      transform: scale(1.05);
+    }
+
+    /* Features Section */
+    .features {
+      padding: 80px 60px;
+      background: var(--bg-color);
+    }
+
+    .features h2 {
+      text-align: center;
+      font-size: 36px;
+      color: var(--dark-color);
+      margin-bottom: 50px;
+      position: relative;
+    }
+
+    .features h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: var(--primary-color);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .feature-card {
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      transition: var(--transition);
+      border: 1px solid var(--border-color);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow);
+    }
+
+    .feature-icon {
+      font-size: 48px;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+    }
+
+    .feature-card h3 {
+      font-size: 20px;
+      color: var(--dark-color);
+      margin-bottom: 15px;
+    }
+
+    .feature-card p {
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    /* Courses Section */
+    .courses {
+      padding: 80px 60px;
+      background: var(--light-color);
+    }
+
+    .courses h2 {
+      text-align: center;
+      font-size: 36px;
+      color: var(--dark-color);
+      margin-bottom: 50px;
+      position: relative;
+    }
+
+    .courses h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: var(--primary-color);
+    }
+
+    .filter-tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .filter-tab {
+      background: var(--bg-color);
+      color: var(--text-color);
+      border: 1px solid var(--border-color);
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .filter-tab.active,
+    .filter-tab:hover {
+      background: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+
+    .course-categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .category-card {
+      background: var(--bg-color);
+      padding: 25px;
+      border-radius: 12px;
+      text-align: center;
+      transition: var(--transition);
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+
+    .category-card:hover {
+      border-color: var(--primary-color);
+      transform: translateY(-5px);
+      box-shadow: 0 5px 20px rgba(22, 163, 74, 0.2);
+    }
+
+    .category-icon {
+      font-size: 36px;
+      color: var(--primary-color);
+      margin-bottom: 15px;
+    }
+
+    .category-card h3 {
+      font-size: 18px;
+      color: var(--dark-color);
+      margin-bottom: 10px;
+    }
+
+    .category-card p {
+      color: var(--text-color);
+      font-size: 14px;
+    }
+
+    /* Webinars Section */
+    .webinars {
+      padding: 80px 60px;
+      background: var(--bg-color);
+    }
+
+    .webinars h2 {
+      text-align: center;
+      font-size: 36px;
+      color: var(--dark-color);
+      margin-bottom: 50px;
+      position: relative;
+    }
+
+    .webinars h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: var(--primary-color);
+    }
+
+    .webinar-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .webinar-card {
+      background: var(--card-bg);
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: var(--transition);
+    }
+
+    .webinar-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+    }
+
+    .webinar-img {
+      height: 180px;
+      background: var(--light-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      color: var(--primary-color);
+    }
+
+    .webinar-content {
+      padding: 20px;
+    }
+
+    .webinar-date {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--primary-color);
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .webinar-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--dark-color);
+    }
+
+    .webinar-description {
+      color: var(--text-color);
+      font-size: 14px;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+
+    .webinar-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .webinar-speaker {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--text-color);
+    }
+
+    .webinar-register {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .webinar-register:hover {
+      background: var(--secondary-color);
+    }
+    
+    /* News Section */
+    .news {
+      padding: 80px 60px;
+      background: var(--light-color);
+    }
+
+    .news h2 {
+      text-align: center;
+      font-size: 36px;
+      color: var(--dark-color);
+      margin-bottom: 50px;
+      position: relative;
+    }
+
+    .news h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: var(--primary-color);
+    }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .news-card {
+      background: var(--bg-color);
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: var(--transition);
+    }
+
+    .news-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+    }
+
+    .news-img {
+      height: 180px;
+      background: var(--card-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      color: var(--primary-color);
+    }
+
+    .news-content {
+      padding: 20px;
+    }
+
+    .news-date {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--primary-color);
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .news-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--dark-color);
+    }
+
+    .news-description {
+      color: var(--text-color);
+      font-size: 14px;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+
+    .news-link {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: var(--transition);
+    }
+
+    .news-link:hover {
+      gap: 8px;
+    }
+
+    /* Statistics Section */
+    .stats {
+      padding: 60px 60px;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      max-width: 1000px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .stat-item h3 {
+      font-size: 48px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .stat-item p {
+      font-size: 18px;
+      opacity: 0.9;
+    }
+
+    /* Testimonials Section */
+    .testimonials {
+      padding: 80px 60px;
+      background: var(--bg-color);
+    }
+
+    .testimonials h2 {
+      text-align: center;
+      font-size: 36px;
+      color: var(--dark-color);
+      margin-bottom: 50px;
+      position: relative;
+    }
+
+    .testimonials h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: var(--primary-color);
+    }
+
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .testimonial-card {
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 15px;
+      border-left: 4px solid var(--primary-color);
+      position: relative;
+    }
+
+    .testimonial-card::before {
+      content: '"';
+      position: absolute;
+      top: 10px;
+      left: 20px;
+      font-size: 60px;
+      color: var(--primary-color);
+      opacity: 0.2;
+    }
+
+    .testimonial-text {
+      font-style: italic;
+      margin-bottom: 20px;
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .author-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--primary-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+    }
+
+    .author-info h4 {
+      color: var(--dark-color);
+      margin-bottom: 5px;
+    }
+
+    .author-info p {
+      color: var(--text-color);
+      font-size: 14px;
+    }
+
+    /* FAQ Section */
+    .faq {
+      padding: 80px 60px;
+      background: var(--light-color);
+    }
+
+    .faq h2 {
+      text-align: center;
+      font-size: 36px;
+      color: var(--dark-color);
+      margin-bottom: 50px;
+      position: relative;
+    }
+
+    .faq h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: var(--primary-color);
+    }
+
+    .faq-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      background: var(--bg-color);
+      margin-bottom: 15px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .faq-question {
+      background: var(--bg-color);
+      padding: 20px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      color: var(--dark-color);
+      transition: var(--transition);
+    }
+
+    .faq-question:hover {
+      background: var(--card-bg);
+    }
+
+    .faq-question.active {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .faq-answer {
+      padding: 0 20px;
+      max-height: 0;
+      overflow: hidden;
+      transition: var(--transition);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    .faq-answer.active {
+      padding: 20px;
+      max-height: 200px;
+    }
+
+    .faq-icon {
+      transition: transform 0.3s ease;
+    }
+
+    .faq-question.active .faq-icon {
+      transform: rotate(180deg);
+    }
+
+    /* Careers Section */
+    .careers {
+      padding: 80px 60px;
+      background: var(--bg-color);
+    }
+
+    .careers h2 {
+      text-align: center;
+      font-size: 36px;
+      color: var(--dark-color);
+      margin-bottom: 50px;
+      position: relative;
+    }
+
+    .careers h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: var(--primary-color);
+    }
+
+    .careers-intro {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto 40px;
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    .job-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .job-card {
+      background: var(--card-bg);
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: var(--transition);
+    }
+
+    .job-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+    }
+
+    .job-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--dark-color);
+      margin-bottom: 10px;
+    }
+
+    .job-department {
+      display: inline-block;
+      background: var(--light-color);
+      color: var(--primary-color);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      margin-bottom: 15px;
+    }
+
+    .job-description {
+      color: var(--text-color);
+      font-size: 14px;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+
+    .job-details {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      font-size: 14px;
+      color: var(--text-color);
+    }
+
+    .job-location, .job-type {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .apply-btn {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: var(--transition);
+      width: 100%;
+    }
+
+    .apply-btn:hover {
+      background: var(--secondary-color);
+    }
+
+    /* Contact Section */
+    .contact {
+      padding: 80px 60px;
+      background: var(--light-color);
+    }
+
+    .contact h2 {
+      text-align: center;
+      font-size: 36px;
+      color: var(--dark-color);
+      margin-bottom: 50px;
+      position: relative;
+    }
+
+    .contact h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: var(--primary-color);
+    }
+
+    .contact-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .contact-info {
+      background: var(--bg-color);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    .contact-info h3 {
+      font-size: 24px;
+      color: var(--dark-color);
+      margin-bottom: 20px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .contact-icon {
+      font-size: 20px;
+      color: var(--primary-color);
+      margin-top: 2px;
+    }
+
+    .contact-text h4 {
+      font-size: 16px;
+      color: var(--dark-color);
+      margin-bottom: 5px;
+    }
+
+    .contact-text p {
+      color: var(--text-color);
+      font-size: 14px;
+    }
+
+    .contact-form {
+      background: var(--bg-color);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    .contact-form h3 {
+      font-size: 24px;
+      color: var(--dark-color);
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--dark-color);
+      font-weight: 600;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      background: var(--card-bg);
+      color: var(--text-color);
+      font-family: inherit;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .submit-btn {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      width: 100%;
+    }
+
+    .submit-btn:hover {
+      background: var(--secondary-color);
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--dark-color);
+      color: white;
+      padding: 40px 60px 20px;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      margin-bottom: 30px;
+    }
+
+    .footer-section h3 {
+      margin-bottom: 20px;
+      color: var(--primary-color);
+    }
+
+    .footer-section p {
+      color: #cbd5e1;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .footer-section ul {
+      list-style: none;
+    }
+
+    .footer-section ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-section ul li a {
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .footer-section ul li a:hover {
+      color: var(--primary-color);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      color: white;
+      transition: var(--transition);
+    }
+
+    .social-links a:hover {
+      background: var(--primary-color);
+      transform: translateY(-3px);
+    }
+
+    .newsletter-form {
+      display: flex;
+      margin-top: 15px;
+    }
+
+    .newsletter-input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 4px 0 0 4px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    .newsletter-input::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .newsletter-btn {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 0 15px;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .newsletter-btn:hover {
+      background: var(--secondary-color);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid #334155;
+      color: #94a3b8;
+    }
+
+    /* Floating Buttons */
+    .call-btn, .whatsapp-btn {
+      position: fixed;
+      width: 60px;
+      height: 60px;
+      bottom: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: #fff;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      z-index: 999;
+    }
+
+    .call-btn {
+      left: 30px;
+      background: #f59e0b;
+    }
+
+    .whatsapp-btn {
+      right: 30px;
+      background: #22c55e;
+    }
+
+    .call-btn:hover, .whatsapp-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    /* Back to Top Button */
+    .back-to-top {
+      position: fixed;
+      bottom: 100px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background: var(--primary-color);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      background: var(--secondary-color);
+      transform: translateY(-5px);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      top: 100px;
+      right: 20px;
+      background: var(--primary-color);
+      color: white;
+      padding: 15px 25px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      transform: translateX(400px);
+      transition: var(--transition);
+      z-index: 1001;
+      max-width: 300px;
+    }
+
+    .toast.show {
+      transform: translateX(0);
+    }
+
+    .toast.error {
+      background: #dc2626;
+    }
+
+    /* Loading Spinner */
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 0.8s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 15px 20px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .mobile-menu {
+        display: block;
+      }
+
+      .hero {
+        flex-direction: column;
+        padding: 40px 20px;
+        text-align: center;
+      }
+
+      .hero-text {
+        max-width: 100%;
+        margin-bottom: 30px;
+      }
+
+      .hero-text h1 {
+        font-size: 32px;
+      }
+
+      .hero-img img {
+        width: 280px;
+      }
+
+      .features, .courses, .webinars, .news, .testimonials, .faq, .careers, .contact {
+        padding: 60px 20px;
+      }
+
+      .stats {
+        padding: 40px 20px;
+      }
+
+      .contact-container {
+        grid-template-columns: 1fr;
+      }
+
+      .footer {
+        padding: 30px 20px 15px;
+      }
+
+      .btn-secondary {
+        margin-left: 0;
+        margin-top: 10px;
+      }
+
+      .call-btn, .whatsapp-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+      }
+
+      .back-to-top {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar" id="navbar">
+    <div class="logo">
+      <i class="fas fa-graduation-cap"></i>
+      BLANDX
+    </div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="home.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li class="dropdown">
+          <a href="courses.html">Courses ▾</a>
+          <div class="dropdown-content">
+            <a href="entrance.html">Entrance Exams</a>
+            <a href="government.html">Government Exams</a>
+            <a href="commerce.html">Commerce</a>
+            <a href="science.html">Science</a>
+            <a href="technology.html">Technology</a>
+            <a href="languages.html">Languages</a>
+          </div>
+        </li>
+        <li><a href="webinars.html">Webinars</a></li>
+        <li><a href="blogs.html">Blogs</a></li>
+        <li><a href="news.html">News</a></li>
+        <li><a href="careers.html">Careers</a></li>
+        <li class="dropdown">
+          <a href="contact.html">Contact Us ▾</a>
+          <div class="dropdown-content">
+            <a href="contact-form.html">Contact Form</a>
+            <a href="locations.html">Our Locations</a>
+            <a href="support.html">Support</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+    <div class="nav-actions">
+      <div class="search-container">
+        <button class="search-icon" onclick="toggleSearch()">
+          <i class="fas fa-search"></i>
+        </button>
+        <div class="search-box" id="searchBox">
+          <input type="text" placeholder="Search courses..." id="searchInput">
+        </div>
+      </div>
+      <button class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon" id="themeIcon"></i>
+      </button>
+      <a href="login.html" class="login-btn" onclick="handleLogin()">Login →</a>
+    </div>
+    <div class="mobile-menu" onclick="toggleMobileMenu()">
+      <i class="fas fa-bars"></i>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu-container" id="mobileMenu">
+    <div class="mobile-menu-header">
+      <div class="logo">
+        <i class="fas fa-graduation-cap"></i>
+        BLANDX
+      </div>
+      <div class="close-menu" onclick="toggleMobileMenu()">
+        <i class="fas fa-times"></i>
+      </div>
+    </div>
+    <ul class="mobile-nav-links">
+      <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+      <li><a href="courses.html"><i class="fas fa-book"></i> Courses</a></li>
+      <li><a href="webinars.html"><i class="fas fa-video"></i> Webinars</a></li>
+      <li><a href="blogs.html"><i class="fas fa-blog"></i> Blogs</a></li>
+      <li><a href="news.html"><i class="fas fa-newspaper"></i> News</a></li>
+      <li><a href="careers.html"><i class="fas fa-briefcase"></i> Careers</a></li>
+      <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact Us</a></li>
+    </ul>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="hero-text">
+      <h1>All-In-One Learning Platform For The Digital Future</h1>
+      <p>
+        We prepare students for Entrance, Government, and Commerce Exams,
+        as well as offering personalized tuition in Science and Commerce.
+      </p>
+      <a href="register.html" class="btn" onclick="handleRegister()">Register Now →</a>
+      <a href="explore.html" class="btn btn-secondary" onclick="handleExplore()">Explore Courses</a>
+    </div>
+    <div class="hero-img">
+      <img src="images/736.png" alt="Teachers" />
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features" id="about">
+    <h2>Why Choose Blandx Learning?</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-code"></i>
+        </div>
+        <h3>Hands-on Coding</h3>
+        <p>Practice coding with real-world projects and get instant feedback from our AI-powered code reviewer.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-users"></i>
+        </div>
+        <h3>Industry Mentors</h3>
+        <p>Learn from tech professionals working at top companies who bring real-world experience to the classroom.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-certificate"></i>
+        </div>
+        <h3>Industry-Recognized Certificates</h3>
+        <p>Earn certificates that are recognized by top tech companies and enhance your resume.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-project-diagram"></i>
+        </div>
+        <h3>Project-Based Learning</h3>
+        <p>Build a portfolio of impressive projects that showcase your skills to potential employers.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-rocket"></i>
+        </div>
+        <h3>Career Support</h3>
+        <p>Get career guidance, interview preparation, and job placement assistance from our dedicated team.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-clock"></i>
+        </div>
+        <h3>Flexible Learning</h3>
+        <p>Learn at your own pace with 24/7 access to course materials and live mentor sessions.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Courses Section -->
+  <section class="courses" id="courses">
+    <h2>Our Tech Courses</h2>
+    <div class="filter-tabs">
+      <div class="filter-tab active" onclick="filterCourses('all')">All</div>
+      <div class="filter-tab" onclick="filterCourses('programming')">Programming</div>
+      <div class="filter-tab" onclick="filterCourses('web-development')">Web Development</div>
+      <div class="filter-tab" onclick="filterCourses('data-science')">Data Science</div>
+      <div class="filter-tab" onclick="filterCourses('mobile-dev')">Mobile Development</div>
+      <div class="filter-tab" onclick="filterCourses('cloud-computing')">Cloud Computing</div>
+      <div class="filter-tab" onclick="filterCourses('cybersecurity')">Cybersecurity</div>
+    </div>
+    <div class="course-categories" id="courseCategories">
+      <div class="category-card" data-category="entrance" onclick="selectCategory('entrance')">
+        <div class="category-icon">
+          <img src="images/photoshop.png" alt="Entrance Exams" class="category-img">
+        </div>
+        <h3>Photoshop</h3>
+        <p>Flyer, Flyer Editing, Flyer Creating</p>
+      </div>
+      <div class="category-card" data-category="government" onclick="selectCategory('government')">
+        <div class="category-icon">
+          <img src="images/indesign.png" alt="Entrance Exams" class="category-img">
+        </div>
+        <h3>Indesign</h3>
+        <p>Book, Book-cover Designing, Book-cover Editing</p>
+      </div>
+      <div class="category-card" data-category="commerce" onclick="selectCategory('commerce')">
+        <div class="category-icon">
+          <img src="images/illustrator.webp" alt="Entrance Exams" class="category-img">
+        </div>
+        <h3>Illustrator</h3>
+        <p>Logo, logo Creating, Logo Editing</p>
+      </div>
+      <div class="category-card" data-category="science" onclick="selectCategory('science')">
+        <div class="category-icon">
+          <img src="images/acrobat.png" alt="Entrance Exams" class="category-img">
+        </div>
+        <h3>Acrobat</h3>
+        <p>PDF, PDF Editing, PDF Creating</p>
+      </div>
+      <div class="category-card" data-category="technology" onclick="selectCategory('technology')">
+        <div class="category-icon">
+          <img src="images/premiere pro.png" alt="Entrance Exams" class="category-img">
+        </div>
+        <h3>Premiere pro</h3>
+        <p>VideoVideo Editing, Video Design</p>
+      </div>
+      <div class="category-card" data-category="languages" onclick="selectCategory('languages')">
+        <div class="category-icon">
+          <img src="images/lightroom.png" alt="Entrance Exams" class="category-img">
+        </div>
+        <h3>light room</h3>s
+        <p>Photo, Photo Editing , Photo lighting</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Webinars Section -->
+  <section class="webinars" id="webinars">
+    <h2>Upcoming Webinars</h2>
+    <div class="webinar-grid">
+      <div class="webinar-card">
+        <div class="webinar-img">
+          <i class="fas fa-laptop-code"></i>
+        </div>
+        <div class="webinar-content">
+          <div class="webinar-date">
+            <i class="far fa-calendar-alt"></i>
+            <span>June 15, 2024 | 4:00 PM</span>
+          </div>
+          <h3 class="webinar-title">Mastering Data Science Fundamentals</h3>
+          <p class="webinar-description">Join us for an introductory session on data science concepts and career opportunities.</p>
+          <div class="webinar-footer">
+            <div class="webinar-speaker">
+              <i class="fas fa-user-tie"></i>
+              <span>Dr. Rajesh Sharma</span>
+            </div>
+            <button class="webinar-register" onclick="registerWebinar('data-science')">Register</button>
+          </div>
+        </div>
+      </div>
+      <div class="webinar-card">
+        <div class="webinar-img">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <div class="webinar-content">
+          <div class="webinar-date">
+            <i class="far fa-calendar-alt"></i>
+            <span>June 18, 2024 | 5:30 PM</span> 
+          </div>
+          <h3 class="webinar-title">Cracking UPSC in First Attempt</h3>
+          <p class="webinar-description">Learn effective strategies and preparation techniques from UPSC toppers.</p>
+          <div class="webinar-footer">
+            <div class="webinar-speaker">
+              <i class="fas fa-user-tie"></i>
+              <span>Anita Desai</span>
+            </div>
+            <button class="webinar-register" onclick="registerWebinar('upsc')">Register</button>
+          </div>
+        </div>
+      </div>
+      <div class="webinar-card">
+        <div class="webinar-img">
+          <i class="fas fa-brain"></i>
+        </div>
+        <div class="webinar-content">
+          <div class="webinar-date">
+            <i class="far fa-calendar-alt"></i>
+            <span>June 22, 2024 | 3:00 PM</span>
+          </div>
+          <h3 class="webinar-title">Effective Memory Techniques for Students</h3>
+          <p class="webinar-description">Discover proven methods to enhance memory retention and recall for exams.</p>
+          <div class="webinar-footer">
+            <div class="webinar-speaker">
+              <i class="fas fa-user-tie"></i>
+              <span>Prof. Suresh Iyer</span>
+            </div>
+            <button class="webinar-register" onclick="registerWebinar('memory')">Register</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- News Section -->
+  <section class="news" id="news">
+    <h2>Latest News & Updates</h2>
+    <div class="news-grid">
+      <div class="news-card">
+        <div class="news-img">
+          <i class="fas fa-newspaper"></i>
+        </div>
+        <div class="news-content">
+          <div class="news-date">
+            <i class="far fa-calendar-alt"></i>
+            <span>June 10, 2024</span>
+          </div>
+          <h3 class="news-title">New Batch for JEE Advanced Starting July 1st</h3>
+          <p class="news-description">Enrollments are now open for our intensive JEE Advanced preparation batch with experienced faculty.</p>
+          <a href="#" class="news-link">Read More <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-img">
+          <i class="fas fa-trophy"></i>
+        </div>
+        <div class="news-content">
+          <div class="news-date">
+            <i class="far fa-calendar-alt"></i>
+            <span>June 5, 2024</span>
+          </div>
+          <h3 class="news-title">Blandx Students Achieve 98% Success Rate in NEET 2024</h3>
+          <p class="news-description">We're proud to announce that 98% of our NEET students have qualified this year.</p>
+          <a href="#" class="news-link">Read More <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-img">
+          <i class="fas fa-graduation-cap"></i>
+        </div>
+        <div class="news-content">
+          <div class="news-date">
+            <i class="far fa-calendar-alt"></i>
+            <span>May 28, 2024</span>
+          </div>
+          <h3 class="news-title">Scholarship Program for Meritorious Students</h3>
+          <p class="news-description">Announcing our new scholarship program for deserving students across all courses.</p>
+          <a href="#" class="news-link">Read More <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Statistics Section -->
+  <section class="stats">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <h3 id="studentCount">0</h3>
+        <p>Happy Students</p>
+      </div>
+      <div class="stat-item">
+        <h3 id="courseCount">0</h3>
+        <p>Courses Available</p>
+      </div>
+      <div class="stat-item">
+        <h3 id="instructorCount">0</h3>
+        <p>Expert Instructors</p>
+      </div>
+      <div class="stat-item">
+        <h3 id="successRate">0%</h3>
+        <p>Success Rate</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="testimonials">
+    <h2>What Our Students Say</h2>
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-text">
+          "Blandx Learning helped me crack the JEE exam with flying colors. The faculty is amazing and the study material is comprehensive."
+        </div>
+        <div class="testimonial-author">
+          <div class="author-avatar">AK</div>
+          <div class="author-info">
+            <h4>Amit Kumar</h4>
+            <p>JEE Topper</p>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-text">
+          "The interactive learning approach at Blandx made complex concepts easy to understand. I highly recommend it to all students."
+        </div>
+        <div class="testimonial-author">
+          <div class="author-avatar">SP</div>
+          <div class="author-info">
+            <h4>Sneha Patel</h4>
+            <p>NEET Aspirant</p>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-text">
+          "Flexible learning schedule and expert guidance helped me balance my job with UPSC preparation. Thank you Blandx Learning!"
+        </div>
+        <div class="testimonial-author">
+          <div class="author-avatar">RJ</div>
+          <div class="author-info">
+            <h4>Rahul Jain</h4>
+            <p>UPSC Candidate</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-container">
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          <span>What courses are available at Blandx Learning?</span>
+          <i class="fas fa-chevron-down faq-icon"></i>
+        </div>
+        <div class="faq-answer">
+          We offer a wide range of courses including Entrance Exams (JEE, NEET, CLAT), Government Exams (UPSC, SSC, Banking), Commerce (CA, CS), Science subjects, Technology courses, and Language learning programs.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          <span>How do I register for a course?</span>
+          <i class="fas fa-chevron-down faq-icon"></i>
+        </div>
+        <div class="faq-answer">
+          Registration is simple! Click on the "Register Now" button, fill in your details, choose your desired course, and complete the payment process. You'll get instant access to the course materials.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          <span>Are the courses available online?</span>
+          <i class="fas fa-chevron-down faq-icon"></i>
+        </div>
+        <div class="faq-answer">
+          Yes, all our courses are available online with 24/7 access. We also offer hybrid learning options with both online and offline classes for certain programs.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          <span>What is the fee structure?</span>
+          <i class="fas fa-chevron-down faq-icon"></i>
+        </div>
+        <div class="faq-answer">
+          Our fee structure varies depending on the course and duration. We offer flexible payment options including EMI plans. Please contact our support team for detailed fee information.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          <span>Do you provide placement assistance?</span>
+          <i class="fas fa-chevron-down faq-icon"></i>
+        </div>
+        <div class="faq-answer">
+          Yes, we provide placement assistance and career guidance for eligible courses. We have tie-ups with leading companies and organizations to help students secure good career opportunities.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Careers Section -->
+  <section class="careers" id="careers">
+    <h2>Join Our Team</h2>
+    <p class="careers-intro">
+      We're always looking for passionate educators and professionals to join our team. 
+      If you're committed to making a difference in education, we'd love to hear from you.
+    </p>
+    <div class="job-grid">
+      <div class="job-card">
+        <h3 class="job-title">Senior Physics Faculty</h3>
+        <div class="job-department">Academics</div>
+        <p class="job-description">
+          We're looking for an experienced Physics teacher with expertise in JEE/NEET curriculum. 
+          Minimum 5 years of teaching experience required.
+        </p>
+        <div class="job-details">
+          <div class="job-location">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Mumbai, Pune</span>
+          </div>
+          <div class="job-type">
+            <i class="fas fa-briefcase"></i>
+            <span>Full-time</span>
+          </div>
+        </div>
+        <button class="apply-btn" onclick="applyJob('physics-faculty')">Apply Now</button>
+      </div>
+      <div class="job-card">
+        <h3 class="job-title">Content Developer</h3>
+        <div class="job-department">Content</div>
+        <p class="job-description">
+          Seeking a creative content developer to create engaging educational materials for various courses. 
+          Experience in e-learning content development preferred.
+        </p>
+        <div class="job-details">
+          <div class="job-location">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Bangalore, Remote</span>
+          </div>
+          <div class="job-type">
+            <i class="fas fa-briefcase"></i>
+            <span>Full-time</span>
+          </div>
+        </div>
+        <button class="apply-btn" onclick="applyJob('content-developer')">Apply Now</button>
+      </div>
+      <div class="job-card">
+        <h3 class="job-title">Digital Marketing Specialist</h3>
+        <div class="job-department">Marketing</div>
+        <p class="job-description">
+          We need a digital marketing expert to manage our online presence and drive student engagement. 
+          Experience in education sector is a plus.
+        </p>
+        <div class="job-details">
+          <div class="job-location">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Delhi, Remote</span>
+          </div>
+          <div class="job-type">
+            <i class="fas fa-briefcase"></i>
+            <span>Full-time</span>
+          </div>
+        </div>
+        <button class="apply-btn" onclick="applyJob('digital-marketing')">Apply Now</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact" id="contact">
+    <h2>Contact Us</h2>
+    <div class="contact-container">
+      <div class="contact-info">
+        <h3>Get In Touch</h3>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-map-marker-alt"></i>
+          </div>
+          <div class="contact-text">
+            <h4>Our Location</h4>
+            <p>123 Education Street, Learning City, LC 10001</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-phone-alt"></i>
+          </div>
+          <div class="contact-text">
+            <h4>Phone Number</h4>
+            <p>+1 (555) 123-4567</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <div class="contact-text">
+            <h4>Email Address</h4>
+            <p>info@blandxlearning.com</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-clock"></i>
+          </div>
+          <div class="contact-text">
+            <h4>Working Hours</h4>
+            <p>Monday - Saturday: 9:00 AM - 6:00 PM</p>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form" id="contact-form">
+        <h3>Send Us a Message</h3>
+        <form onsubmit="submitContactForm(event)">
+          <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Your Email</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject" required>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" required></textarea>
+          </div>
+          <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>About Blandx Learning</h3>
+        <p>We are a leading educational platform dedicated to providing quality learning experiences for students preparing for Master Technology Skills End The Digital Future</p>
+        <div class="social-links">
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="courses.html">Courses</a></li>
+          <li><a href="webinars.html">Webinars</a></li>
+          <li><a href="careers.html">Careers</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Support</h3>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Refund Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Newsletter</h3>
+        <p>Subscribe to our newsletter to get updates on new courses and events.</p>
+        <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+          <input type="email" class="newsletter-input" placeholder="Your email address" required>
+          <button type="submit" class="newsletter-btn">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 Blandx Learning. All rights reserved. | Designed with <i class="fas fa-heart" style="color: var(--primary-color);"></i> for students</p>
+    </div>
+  </footer>
+
+  <!-- Floating Buttons -->
+  <div class="call-btn" onclick="handleCall()" aria-label="Call us">
+    <i class="fas fa-phone"></i>
+  </div>
+  <div class="whatsapp-btn" onclick="handleWhatsApp()" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </div>
+
+  <!-- Back to Top Button -->
+  <div class="back-to-top" id="backToTop" onclick="scrollToTop()" aria-label="Back to top">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
+  <script>
+    // Wait for the DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize all functionality
+  initThemeToggle();
+  initMobileMenu();
+  initSearchBox();
+  initNavbarScroll();
+  initBackToTop();
+  initFAQ();
+  initStatistics();
+  initCourseFilter();
+  initFormSubmissions();
+  initSmoothScrolling();
+  initAnimations();
+});
+
+// Theme Toggle
+function initThemeToggle() {
+  const themeToggle = document.querySelector('.theme-toggle');
+  const themeIcon = document.getElementById('themeIcon');
+  
+  // Check for saved theme preference or default to light mode
+  const currentTheme = localStorage.getItem('theme') || 'light';
+  if (currentTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+    themeIcon.classList.remove('fa-moon');
+    themeIcon.classList.add('fa-sun');
+  }
+  
+  themeToggle.addEventListener('click', function() {
+    document.body.classList.toggle('dark-mode');
+    
+    if (document.body.classList.contains('dark-mode')) {
+      themeIcon.classList.remove('fa-moon');
+      themeIcon.classList.add('fa-sun');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      themeIcon.classList.remove('fa-sun');
+      themeIcon.classList.add('fa-moon');
+      localStorage.setItem('theme', 'light');
+    }
+  });
+}
+
+// Mobile Menu
+function initMobileMenu() {
+  const mobileMenu = document.querySelector('.mobile-menu');
+  const mobileMenuContainer = document.querySelector('.mobile-menu-container');
+  const closeMenu = document.querySelector('.close-menu');
+  
+  mobileMenu.addEventListener('click', function() {
+    mobileMenuContainer.classList.add('active');
+  });
+  
+  closeMenu.addEventListener('click', function() {
+    mobileMenuContainer.classList.remove('active');
+  });
+  
+  // Close menu when clicking on a link
+  const mobileLinks = document.querySelectorAll('.mobile-nav-links a');
+  mobileLinks.forEach(link => {
+    link.addEventListener('click', function() {
+      mobileMenuContainer.classList.remove('active');
+    });
+  });
+}
+
+// Search Box
+function initSearchBox() {
+  const searchIcon = document.querySelector('.search-icon');
+  const searchBox = document.getElementById('searchBox');
+  const searchInput = document.getElementById('searchInput');
+  
+  searchIcon.addEventListener('click', function() {
+    searchBox.classList.toggle('active');
+    if (searchBox.classList.contains('active')) {
+      searchInput.focus();
+    }
+  });
+  
+  // Close search box when clicking outside
+  document.addEventListener('click', function(event) {
+    if (!searchIcon.contains(event.target) && !searchBox.contains(event.target)) {
+      searchBox.classList.remove('active');
+    }
+  });
+  
+  // Handle search submission
+  searchInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      const searchTerm = searchInput.value.trim();
+      if (searchTerm) {
+        // In a real application, this would perform a search
+        showToast(`Searching for: ${searchTerm}`);
+        searchInput.value = '';
+        searchBox.classList.remove('active');
+      }
+    }
+  });
+}
+
+// Navbar Scroll Effect
+function initNavbarScroll() {
+  const navbar = document.getElementById('navbar');
+  
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 50) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  });
+}
+
+// Back to Top Button
+function initBackToTop() {
+  const backToTopBtn = document.getElementById('backToTop');
+  
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 300) {
+      backToTopBtn.classList.add('visible');
+    } else {
+      backToTopBtn.classList.remove('visible');
+    }
+  });
+}
+
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
+
+// FAQ Accordion
+function initFAQ() {
+  const faqQuestions = document.querySelectorAll('.faq-question');
+  
+  faqQuestions.forEach(question => {
+    question.addEventListener('click', function() {
+      const faqItem = this.parentElement;
+      const answer = this.nextElementSibling;
+      const icon = this.querySelector('.faq-icon');
+      
+      // Close all other FAQ items
+      faqQuestions.forEach(q => {
+        if (q !== question) {
+          q.classList.remove('active');
+          q.nextElementSibling.classList.remove('active');
+          q.querySelector('.faq-icon').style.transform = 'rotate(0deg)';
+        }
+      });
+      
+      // Toggle current FAQ item
+      this.classList.toggle('active');
+      answer.classList.toggle('active');
+      
+      if (this.classList.contains('active')) {
+        icon.style.transform = 'rotate(180deg)';
+      } else {
+        icon.style.transform = 'rotate(0deg)';
+      }
+    });
+  });
+}
+
+// Statistics Counter Animation
+function initStatistics() {
+  const statsSection = document.querySelector('.stats');
+  const statItems = document.querySelectorAll('.stat-item h3');
+  
+  // Function to animate counter
+  function animateCounter(element, target, suffix = '') {
+    let current = 0;
+    const increment = target / 100;
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        current = target;
+        clearInterval(timer);
+      }
+      element.textContent = Math.floor(current) + suffix;
+    }, 20);
+  }
+  
+  // Intersection Observer to trigger animation when stats section is visible
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCounter(statItems[0], 5000, '+');
+        animateCounter(statItems[1], 120, '+');
+        animateCounter(statItems[2], 50, '+');
+        animateCounter(statItems[3], 98, '%');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  
+  observer.observe(statsSection);
+}
+
+// Course Filter
+function initCourseFilter() {
+  const filterTabs = document.querySelectorAll('.filter-tab');
+  const courseCards = document.querySelectorAll('.category-card');
+  
+  filterTabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+      // Remove active class from all tabs
+      filterTabs.forEach(t => t.classList.remove('active'));
+      
+      // Add active class to clicked tab
+      this.classList.add('active');
+      
+      const filterValue = this.getAttribute('onclick').match(/'([^']+)'/)[1];
+      
+      // Show/hide course cards based on filter
+      courseCards.forEach(card => {
+        if (filterValue === 'all' || card.dataset.category === filterValue) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+}
+
+// Form Submissions
+function initFormSubmissions() {
+  // Contact form
+  const contactForm = document.getElementById('contact-form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Get form values
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const subject = document.getElementById('subject').value;
+      const message = document.getElementById('message').value;
+      
+      // In a real application, this would send data to a server
+      console.log('Contact form submitted:', { name, email, subject, message });
+      
+      // Show success message
+      showToast('Your message has been sent successfully!');
+      
+      // Reset form
+      this.reset();
+    });
+  }
+  
+  // Newsletter form
+  const newsletterForm = document.querySelector('.newsletter-form');
+  if (newsletterForm) {
+    newsletterForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Get email value
+      const email = this.querySelector('.newsletter-input').value;
+      
+      // In a real application, this would send data to a server
+      console.log('Newsletter subscription:', email);
+      
+      // Show success message
+      showToast('You have successfully subscribed to our newsletter!');
+      
+      // Reset form
+      this.reset();
+    });
+  }
+}
+
+// Smooth Scrolling for anchor links
+function initSmoothScrolling() {
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      const targetId = this.getAttribute('href').substring(1);
+      if (targetId === '') return;
+      
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        window.scrollTo({
+          top: targetElement.offsetTop - 80, // Offset for sticky navbar
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+}
+
+// Animations on scroll
+function initAnimations() {
+  const animatedElements = document.querySelectorAll('.feature-card, .category-card, .webinar-card, .news-card, .testimonial-card, .job-card');
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+  
+  // Set initial state and observe elements
+  animatedElements.forEach(element => {
+    element.style.opacity = '0';
+    element.style.transform = 'translateY(20px)';
+    element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(element);
+  });
+}
+
+// Toast Notification
+function showToast(message, isError = false) {
+  // Create toast element
+  const toast = document.createElement('div');
+  toast.className = isError ? 'toast error' : 'toast';
+  toast.textContent = message;
+  
+  // Add to DOM
+  document.body.appendChild(toast);
+  
+  // Show toast
+  setTimeout(() => {
+    toast.classList.add('show');
+  }, 100);
+  
+  // Hide and remove after 3 seconds
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => {
+      document.body.removeChild(toast);
+    }, 300);
+  }, 3000);
+}
+
+// Event Handlers for onclick attributes in HTML
+function toggleSearch() {
+  const searchBox = document.getElementById('searchBox');
+  searchBox.classList.toggle('active');
+  if (searchBox.classList.contains('active')) {
+    document.getElementById('searchInput').focus();
+  }
+}
+
+function toggleTheme() {
+  document.body.classList.toggle('dark-mode');
+  const themeIcon = document.getElementById('themeIcon');
+  
+  if (document.body.classList.contains('dark-mode')) {
+    themeIcon.classList.remove('fa-moon');
+    themeIcon.classList.add('fa-sun');
+    localStorage.setItem('theme', 'dark');
+  } else {
+    themeIcon.classList.remove('fa-sun');
+    themeIcon.classList.add('fa-moon');
+    localStorage.setItem('theme', 'light');
+  }
+}
+
+function toggleMobileMenu() {
+  const mobileMenu = document.getElementById('mobileMenu');
+  mobileMenu.classList.toggle('active');
+}
+
+function handleLogin() {
+  window.location.href = 'login.html';
+}
+
+function handleRegister() {
+  window.location.href = 'register.html';
+}
+
+function handleExplore() {
+  window.location.href = 'courses.html';
+}
+
+function filterCourses(category) {
+  const filterTabs = document.querySelectorAll('.filter-tab');
+  const courseCards = document.querySelectorAll('.category-card');
+  
+  // Update active tab
+  filterTabs.forEach(tab => tab.classList.remove('active'));
+  event.target.classList.add('active');
+  
+  // Filter course cards
+  courseCards.forEach(card => {
+    if (category === 'all' || card.dataset.category === category) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+
+function selectCategory(category) {
+  window.location.href = `video.html?category=${category}`;
+}
+
+function registerWebinar(type) {
+  showToast(`You have registered for the ${type} webinar!`);
+}
+
+function toggleFAQ(element) {
+  const faqQuestions = document.querySelectorAll('.faq-question');
+  
+  // Close all other FAQ items
+  faqQuestions.forEach(q => {
+    if (q !== element) {
+      q.classList.remove('active');
+      q.nextElementSibling.classList.remove('active');
+      q.querySelector('.faq-icon').style.transform = 'rotate(0deg)';
+    }
+  });
+  
+  // Toggle current FAQ item
+  element.classList.toggle('active');
+  const answer = element.nextElementSibling;
+  answer.classList.toggle('active');
+  const icon = element.querySelector('.faq-icon');
+  
+  if (element.classList.contains('active')) {
+    icon.style.transform = 'rotate(180deg)';
+  } else {
+    icon.style.transform = 'rotate(0deg)';
+  }
+}
+
+function applyJob(jobId) {
+  showToast(`Your application for ${jobId} has been submitted!`);
+}
+
+function submitContactForm(event) {
+  event.preventDefault();
+  
+  // Get form values
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const subject = document.getElementById('subject').value;
+  const message = document.getElementById('message').value;
+  
+  // In a real application, this would send data to a server
+  console.log('Contact form submitted:', { name, email, subject, message });
+  
+  // Show success message
+  showToast('Your message has been sent successfully!');
+  
+  // Reset form
+  document.getElementById('contact-form').reset();
+}
+
+function subscribeNewsletter(event) {
+  event.preventDefault();
+  
+  // Get email value
+  const email = event.target.querySelector('.newsletter-input').value;
+  
+  // In a real application, this would send data to a server
+  console.log('Newsletter subscription:', email);
+  
+  // Show success message
+  showToast('You have successfully subscribed to our newsletter!');
+  
+  // Reset form
+  event.target.reset();
+}
+
+function handleCall() {
+  window.location.href = 'tel:+15551234567';
+}
+
+function handleWhatsApp() {
+  window.location.href = 'https://wa.me/15551234567';
+}
+  </script>
+
+</body>
+</html>
+

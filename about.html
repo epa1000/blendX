@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blandx Learning - About Us</title>
+  <link rel="shortcut icon" href="images/logo.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Loading Screen Styles */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
+    
+    .loader {
+      width: 60px;
+      height: 60px;
+      border: 5px solid rgba(22, 163, 74, 0.2);
+      border-top: 5px solid var(--primary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Loading text */
+    .loader-text {
+      position: absolute;
+      bottom: 40%;
+      color: var(--primary-color);
+      font-weight: 600;
+      font-size: 18px;
+      letter-spacing: 1px;
+    }
+    
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Arial", sans-serif;
+    }
+
+    :root {
+      --primary-color: #16a34a;
+      --secondary-color: #0f766e;
+      --dark-color: #1e293b;
+      --light-color: #f0fff4;
+      --text-color: #222;
+      --bg-color: #fff;
+      --card-bg: #f8fafc;
+      --border-color: #e2e8f0;
+      --shadow: 0 4px 12px rgba(0,0,0,0.1);
+      --transition: all 0.3s ease;
+    }
+
+    body.dark-mode {
+      --text-color: #f1f5f9;
+      --bg-color: #0f172a;
+      --card-bg: #1e293b;
+      --border-color: #334155;
+      --light-color: #1e293b;
+    }
+
+    body {
+      background: var(--bg-color);
+      color: var(--text-color);
+      overflow-x: hidden;
+      transition: var(--transition);
+    }
+
+    /* Hide main content initially */
+    .main-content {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    
+    .main-content.visible {
+      opacity: 1;
+    }
+
+    /* Scrollbar Styling */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--card-bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary-color);
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--secondary-color);
+    }
+
+    /* Navbar */
+    .navbar {
+      width: 100%;
+      background: var(--bg-color);
+      padding: 15px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      transition: var(--transition);
+    }
+
+    .navbar.scrolled {
+      padding: 10px 60px;
+      box-shadow: var(--shadow);
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--primary-color);
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo i {
+      font-size: 24px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--primary-color);
+      font-weight: 600;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: var(--secondary-color);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background: var(--primary-color);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-links a.active {
+      color: var(--secondary-color);
+    }
+
+    .nav-links a.active::after {
+      width: 100%;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .search-container {
+      position: relative;
+    }
+
+    .search-icon {
+      background: none;
+      border: none;
+      color: var(--primary-color);
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .search-box {
+      position: absolute;
+      right: 0;
+      top: 40px;
+      width: 0;
+      overflow: hidden;
+      transition: width 0.3s ease;
+    }
+
+    .search-box.active {
+      width: 250px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 10px 15px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-color);
+      color: var(--text-color);
+    }
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      color: var(--primary-color);
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .login-btn {
+      background: var(--primary-color);
+      color: white;
+      padding: 8px 18px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+    }
+
+    .login-btn:hover {
+      background: var(--secondary-color);
+      transform: translateY(-2px);
+    }
+
+    /* Mobile Menu */
+    .mobile-menu {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--primary-color);
+    }
+
+    .mobile-menu-container {
+      position: fixed;
+      top: 0;
+      right: -300px;
+      width: 300px;
+      height: 100vh;
+      background: var(--bg-color);
+      box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+      padding: 20px;
+      z-index: 1001;
+      transition: right 0.3s ease;
+    }
+
+    .mobile-menu-container.active {
+      right: 0;
+    }
+
+    .mobile-menu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .close-menu {
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--text-color);
+    }
+
+    .mobile-nav-links {
+      list-style: none;
+    }
+
+    .mobile-nav-links li {
+      margin-bottom: 15px;
+    }
+
+    .mobile-nav-links a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mobile-nav-links a i {
+      color: var(--primary-color);
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background: var(--bg-color);
+      min-width: 160px;
+      box-shadow: var(--shadow);
+      z-index: 1;
+      border-radius: 6px;
+      padding: 10px 0;
+      top: 100%;
+      left: 0;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-content a {
+      color: var(--text-color);
+      padding: 8px 15px;
+      text-decoration: none;
+      display: block;
+      transition: var(--transition);
+    }
+
+    .dropdown-content a:hover {
+      background: var(--card-bg);
+      color: var(--primary-color);
+    }
+
+    /* Hero Section */
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 60px 80px;
+      background: linear-gradient(135deg, var(--light-color) 0%, var(--bg-color) 100%);
+      min-height: 70vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="%2316a34a" opacity="0.1"/><circle cx="80" cy="80" r="2" fill="%2316a34a" opacity="0.1"/><circle cx="50" cy="50" r="3" fill="%2316a34a" opacity="0.1"/></svg>');
+      opacity: 0.3;
+    }
+
+    .hero-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      gap: 40px;
+    }
+
+    .hero-text {
+      max-width: 60%;
+      position: relative;
+      z-index: 1;
+      animation: slideInLeft 1s ease-out;
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .hero-text h1 {
+      font-size: 40px;
+      font-weight: 800;
+      color: var(--dark-color);
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .hero-text p {
+      font-size: 18px;
+      line-height: 1.6;
+      color: var(--text-color);
+      margin-bottom: 25px;
+    }
+
+    .btn {
+      background: var(--primary-color);
+      color: #fff;
+      padding: 12px 28px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: var(--transition);
+      display: inline-block;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: var(--secondary-color);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary-color);
+      border: 2px solid var(--primary-color);
+      margin-left: 15px;
+    }
+
+    .btn-secondary:hover {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .hero-img {
+      position: relative;
+      z-index: 1;
+      animation: slideInRight 1s ease-out;
+      width: 40%;
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .hero-img img {
+      width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .hero-img img:hover {
+      transform: scale(1.05);
+    }
+
+    /* About Content Section */
+    .about-content {
+      padding: 80px 60px;
+      background: var(--bg-color);
+    }
+
+    .about-content h2 {
+      text-align: center;
+      font-size: 36px;
+      color: var(--dark-color);
+      margin-bottom: 50px;
+      position: relative;
+    }
+
+    .about-content h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: var(--primary-color);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .about-card {
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: var(--transition);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .about-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+    }
+
+    .about-icon {
+      font-size: 48px;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+      align-self: center;
+    }
+
+    .about-card h3 {
+      font-size: 24px;
+      color: var(--dark-color);
+      margin-bottom: 15px;
+    }
+
+    .about-card p {
+      color: var(--text-color);
+      line-height: 1.6;
+      flex-grow: 1;
+    }
+
+    /* Team Section */
+    .team {
+      padding: 80px 60px;
+      background: var(--light-color);
+    }
+
+    .team h2 {
+      text-align: center;
+      font-size: 36px;
+      color: var(--dark-color);
+      margin-bottom: 50px;
+      position: relative;
+    }
+
+    .team h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: var(--primary-color);
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .team-card {
+      background: var(--card-bg);
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: var(--transition);
+      text-align: center;
+    }
+
+    .team-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+    }
+
+    .team-img {
+      height: 200px;
+      background: var(--light-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .team-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .team-card:hover .team-img img {
+      transform: scale(1.05);
+    }
+
+    .team-content {
+      padding: 20px;
+    }
+
+    .team-name {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: var(--dark-color);
+    }
+
+    .team-role {
+      font-size: 16px;
+      color: var(--primary-color);
+      margin-bottom: 15px;
+    }
+
+    .team-bio {
+      color: var(--text-color);
+      line-height: 1.5;
+    }
+
+    .team-social {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .team-social a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background: var(--light-color);
+      border-radius: 50%;
+      color: var(--primary-color);
+      transition: var(--transition);
+    }
+
+    .team-social a:hover {
+      background: var(--primary-color);
+      color: white;
+      transform: translateY(-3px);
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--dark-color);
+      color: white;
+      padding: 40px 60px 20px;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      margin-bottom: 30px;
+    }
+
+    .footer-section h3 {
+      margin-bottom: 20px;
+      color: var(--primary-color);
+    }
+
+    .footer-section p {
+      color: #cbd5e1;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .footer-section ul {
+      list-style: none;
+    }
+
+    .footer-section ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-section ul li a {
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .footer-section ul li a:hover {
+      color: var(--primary-color);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      color: white;
+      transition: var(--transition);
+    }
+
+    .social-links a:hover {
+      background: var(--primary-color);
+      transform: translateY(-3px);
+    }
+
+    .newsletter-form {
+      display: flex;
+      margin-top: 15px;
+    }
+
+    .newsletter-input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 4px 0 0 4px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    .newsletter-input::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .newsletter-btn {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 0 15px;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .newsletter-btn:hover {
+      background: var(--secondary-color);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid #334155;
+      color: #94a3b8;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 15px 20px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .mobile-menu {
+        display: block;
+      }
+
+      .hero {
+        flex-direction: column;
+        padding: 40px 20px;
+        text-align: center;
+      }
+
+      .hero-content {
+        flex-direction: column;
+        gap: 30px;
+      }
+
+      .hero-text {
+        max-width: 100%;
+        margin-bottom: 30px;
+      }
+
+      .hero-text h1 {
+        font-size: 32px;
+      }
+
+      .hero-img {
+        width: 100%;
+        height: auto;
+        max-height: 300px;
+      }
+
+      .about-content, .team {
+        padding: 60px 20px;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+
+      .team-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+
+      .footer {
+        padding: 30px 20px 15px;
+      }
+
+      .btn-secondary {
+        margin-left: 0;
+        margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- LOADING SCREEN -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loader"></div>
+    <div class="loader-text"></div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content" id="mainContent">
+    <!-- Navbar -->
+    <header class="navbar" id="navbar">
+      <div class="logo">
+        <i class="fas fa-graduation-cap"></i>
+        BLANDX
+      </div>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="home.html">Home</a></li>
+          <li><a href="about.html" class="active">About Us</a></li>
+          <li class="dropdown">
+            <a href="courses.html">Courses ▾</a>
+            <div class="dropdown-content">
+              <a href="entrance.html">Entrance Exams</a>
+              <a href="government.html">Government Exams</a>
+              <a href="commerce.html">Commerce</a>
+              <a href="science.html">Science</a>
+              <a href="technology.html">Technology</a>
+              <a href="languages.html">Languages</a>
+            </div>
+          </li>
+          <li><a href="webinars.html">Webinars</a></li>
+          <li><a href="blogs.html">Blogs</a></li>
+          <li><a href="news.html">News</a></li>
+          <li><a href="careers.html">Careers</a></li>
+          <li class="dropdown">
+            <a href="contact.html">Contact Us ▾</a>
+            <div class="dropdown-content">
+              <a href="contact-form.html">Contact Form</a>
+              <a href="locations.html">Our Locations</a>
+              <a href="support.html">Support</a>
+            </div>
+          </li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <div class="search-container">
+          <button class="search-icon" onclick="toggleSearch()">
+            <i class="fas fa-search"></i>
+          </button>
+          <div class="search-box" id="searchBox">
+            <input type="text" placeholder="Search..." id="searchInput">
+          </div>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()">
+          <i class="fas fa-moon" id="themeIcon"></i>
+        </button>
+        <a href="login.html" class="login-btn" onclick="handleLogin()">Login →</a>
+      </div>
+      <div class="mobile-menu" onclick="toggleMobileMenu()">
+        <i class="fas fa-bars"></i>
+      </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-container" id="mobileMenu">
+      <div class="mobile-menu-header">
+        <div class="logo">
+          <i class="fas fa-graduation-cap"></i>
+          BLANDX
+        </div>
+        <div class="close-menu" onclick="toggleMobileMenu()">
+          <i class="fas fa-times"></i>
+        </div>
+      </div>
+      <ul class="mobile-nav-links">
+        <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+        <li><a href="courses.html"><i class="fas fa-book"></i> Courses</a></li>
+        <li><a href="webinars.html"><i class="fas fa-video"></i> Webinars</a></li>
+        <li><a href="blogs.html"><i class="fas fa-blog"></i> Blogs</a></li>
+        <li><a href="news.html"><i class="fas fa-newspaper"></i> News</a></li>
+        <li><a href="careers.html"><i class="fas fa-briefcase"></i> Careers</a></li>
+        <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact Us</a></li>
+      </ul>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1>About Blandx Learning</h1>
+          <p>
+            We are a leading educational platform dedicated to providing quality learning experiences for students preparing for entrance exams, government jobs, and professional skills development.
+          </p>
+          <a href="register.html" class="btn" onclick="handleRegister()">Join Us Today →</a>
+          <a href="courses.html" class="btn btn-secondary" onclick="handleExplore()">Explore Courses</a>
+        </div>
+        <div class="hero-img">
+          <img src="images/about-hero.jpg" alt="About Blandx Learning" />
+        </div>
+      </div>
+    </section>
+
+    <!-- About Content Section -->
+    <section class="about-content" id="about">
+      <h2>Our Story</h2>
+      <div class="about-grid">
+        <div class="about-card">
+          <div class="about-icon">
+            <i class="fas fa-bullseye"></i>
+          </div>
+          <h3>Our Mission</h3>
+          <p>
+            To empower students with quality education and personalized learning experiences that help them achieve their academic and career goals. We strive to make learning accessible, engaging, and effective for everyone.
+          </p>
+        </div>
+        <div class="about-card">
+          <div class="about-icon">
+            <i class="fas fa-eye"></i>
+          </div>
+          <h3>Our Vision</h3>
+          <p>
+            To become the most trusted and innovative educational platform, transforming the way students learn and prepare for their future. We aim to bridge the gap between traditional education and modern technology.
+          </p>
+        </div>
+        <div class="about-card">
+          <div class="about-icon">
+            <i class="fas fa-heart"></i>
+          </div>
+          <h3>Our Values</h3>
+          <p>
+            Excellence, Innovation, Integrity, and Student-Centric Approach. These core values guide everything we do, from curriculum design to student support.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team" id="team">
+      <h2>Meet Our Team</h2>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-img">
+            <img src="images/team1.jpg" alt="Team Member">
+          </div>
+          <div class="team-content">
+            <h3 class="team-name">Dr. Rajesh Sharma</h3>
+            <div class="team-role">Founder & CEO</div>
+            <p class="team-bio">
+              With over 20 years of experience in education, Dr. Sharma founded Blandx Learning with a vision to revolutionize how students prepare for competitive exams.
+            </p>
+            <div class="team-social">
+              <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-img">
+            <img src="images/team2.jpg" alt="Team Member">
+          </div>
+          <div class="team-content">
+            <h3 class="team-name">Priya Nair</h3>
+            <div class="team-role">Chief Academic Officer</div>
+            <p class="team-bio">
+              Priya brings her extensive experience in curriculum development and student psychology to ensure our courses are both comprehensive and engaging.
+            </p>
+            <div class="team-social">
+              <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-img">
+            <img src="images/team3.jpg" alt="Team Member">
+          </div>
+          <div class="team-content">
+            <h3 class="team-name">Amit Kumar</h3>
+            <div class="team-role">Head of Technology</div>
+            <p class="team-bio">
+              Amit leads our technology team, ensuring our platform delivers a seamless and innovative learning experience for all our students.
+            </p>
+            <div class="team-social">
+              <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-img">
+            <img src="images/team4.jpg" alt="Team Member">
+          </div>
+          <div class="team-content">
+            <h3 class="team-name">Sneha Patel</h3>
+            <div class="team-role">Student Success Manager</div>
+            <p class="team-bio">
+              Sneha is dedicated to ensuring our students have all the support they need to succeed in their academic journey.
+            </p>
+            <div class="team-social">
+              <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>About Blandx Learning</h3>
+          <p>We are a leading educational platform dedicated to providing quality learning experiences for students preparing for Master Technology Skills End The Digital Future</p>
+          <div class="social-links">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        </div>
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="courses.html">Courses</a></li>
+            <li><a href="webinars.html">Webinars</a></li>
+            <li><a href="careers.html">Careers</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Support</h3>
+          <ul>
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Refund Policy</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Newsletter</h3>
+          <p>Subscribe to our newsletter to get updates on new courses and events.</p>
+          <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+            <input type="email" class="newsletter-input" placeholder="Your email address" required>
+            <button type="submit" class="newsletter-btn">Subscribe</button>
+          </form>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 Blandx Learning. All rights reserved. | Designed with <i class="fas fa-heart" style="color: var(--primary-color);"></i> for students</p>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Wait for the DOM to be fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      // Hide loading screen after page loads
+      setTimeout(function() {
+        const loadingScreen = document.getElementById('loadingScreen');
+        const mainContent = document.getElementById('mainContent');
+        
+        // Fade out loading screen
+        loadingScreen.style.opacity = '0';
+        
+        // After fade out, hide loading screen and show main content
+        setTimeout(function() {
+          loadingScreen.style.display = 'none';
+          mainContent.classList.add('visible');
+        }, 500);
+      }, 1500); // Show loading screen for 1.5 seconds
+      
+      // Initialize all functionality
+      initThemeToggle();
+      initMobileMenu();
+      initSearchBox();
+      initNavbarScroll();
+      initAnimations();
+    });
+
+    // Theme Toggle
+    function initThemeToggle() {
+      const themeToggle = document.querySelector('.theme-toggle');
+      const themeIcon = document.getElementById('themeIcon');
+      
+      // Check for saved theme preference or default to light mode
+      const currentTheme = localStorage.getItem('theme') || 'light';
+      if (currentTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+      }
+      
+      themeToggle.addEventListener('click', function() {
+        document.body.classList.toggle('dark-mode');
+        
+        if (document.body.classList.contains('dark-mode')) {
+          themeIcon.classList.remove('fa-moon');
+          themeIcon.classList.add('fa-sun');
+          localStorage.setItem('theme', 'dark');
+        } else {
+          themeIcon.classList.remove('fa-sun');
+          themeIcon.classList.add('fa-moon');
+          localStorage.setItem('theme', 'light');
+        }
+      });
+    }
+
+    // Mobile Menu
+    function initMobileMenu() {
+      const mobileMenu = document.querySelector('.mobile-menu');
+      const mobileMenuContainer = document.querySelector('.mobile-menu-container');
+      const closeMenu = document.querySelector('.close-menu');
+      
+      mobileMenu.addEventListener('click', function() {
+        mobileMenuContainer.classList.add('active');
+      });
+      
+      closeMenu.addEventListener('click', function() {
+        mobileMenuContainer.classList.remove('active');
+      });
+      
+      // Close menu when clicking on a link
+      const mobileLinks = document.querySelectorAll('.mobile-nav-links a');
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          mobileMenuContainer.classList.remove('active');
+        });
+      });
+    }
+
+    // Search Box
+    function initSearchBox() {
+      const searchIcon = document.querySelector('.search-icon');
+      const searchBox = document.getElementById('searchBox');
+      const searchInput = document.getElementById('searchInput');
+      
+      searchIcon.addEventListener('click', function() {
+        searchBox.classList.toggle('active');
+        if (searchBox.classList.contains('active')) {
+          searchInput.focus();
+        }
+      });
+      
+      // Close search box when clicking outside
+      document.addEventListener('click', function(event) {
+        if (!searchIcon.contains(event.target) && !searchBox.contains(event.target)) {
+          searchBox.classList.remove('active');
+        }
+      });
+      
+      // Handle search submission
+      searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          const searchTerm = searchInput.value.trim();
+          if (searchTerm) {
+            // In a real application, this would perform a search
+            showToast(`Searching for: ${searchTerm}`);
+            searchInput.value = '';
+            searchBox.classList.remove('active');
+          }
+        }
+      });
+    }
+
+    // Navbar Scroll Effect
+    function initNavbarScroll() {
+      const navbar = document.getElementById('navbar');
+      
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 50) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+      });
+    }
+
+    // Animations on scroll
+    function initAnimations() {
+      const animatedElements = document.querySelectorAll('.about-card, .team-card');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      // Set initial state and observe elements
+      animatedElements.forEach(element => {
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(20px)';
+        element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        observer.observe(element);
+      });
+    }
+
+    // Toast Notification
+    function showToast(message, isError = false) {
+      // Create toast element
+      const toast = document.createElement('div');
+      toast.className = isError ? 'toast error' : 'toast';
+      toast.textContent = message;
+      
+      // Add to DOM
+      document.body.appendChild(toast);
+      
+      // Show toast
+      setTimeout(() => {
+        toast.classList.add('show');
+      }, 100);
+      
+      // Hide and remove after 3 seconds
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+          document.body.removeChild(toast);
+        }, 300);
+      }, 3000);
+    }
+
+    // Event Handlers for onclick attributes in HTML
+    function toggleSearch() {
+      const searchBox = document.getElementById('searchBox');
+      searchBox.classList.toggle('active');
+      if (searchBox.classList.contains('active')) {
+        document.getElementById('searchInput').focus();
+      }
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+      const themeIcon = document.getElementById('themeIcon');
+      
+      if (document.body.classList.contains('dark-mode')) {
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        themeIcon.classList.remove('fa-sun');
+        themeIcon.classList.add('fa-moon');
+        localStorage.setItem('theme', 'light');
+      }
+    }
+
+    function toggleMobileMenu() {
+      const mobileMenu = document.getElementById('mobileMenu');
+      mobileMenu.classList.toggle('active');
+    }
+
+    function handleLogin() {
+      window.location.href = 'login.html';
+    }
+
+    function handleRegister() {
+      window.location.href = 'register.html';
+    }
+
+    function handleExplore() {
+      window.location.href = 'courses.html';
+    }
+
+    function subscribeNewsletter(event) {
+      event.preventDefault();
+      
+      // Get email value
+      const email = event.target.querySelector('.newsletter-input').value;
+      
+      // In a real application, this would send data to a server
+      console.log('Newsletter subscription:', email);
+      
+      // Show success message
+      showToast('You have successfully subscribed to our newsletter!');
+      
+      // Reset form
+      event.target.reset();
+    }
+  </script>
+</body>
+</html>
