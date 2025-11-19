@@ -97,7 +97,7 @@
     }
 
     ::-webkit-scrollbar-thumb:hover {
-      background: var(- -secondary-color);
+      background: var(--secondary-color);
     }
 
     /* Navbar */
@@ -465,6 +465,105 @@
 
     .hero-img img:hover {
       transform: scale(1.05);
+    }
+
+    /* Registration Form Section */
+    .registration-section {
+      padding: 60px 80px;
+      background: var(--bg-color);
+    }
+
+    .registration-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      border-radius: 15px;
+      padding: 40px;
+      box-shadow: var(--shadow);
+    }
+
+    .registration-title {
+      text-align: center;
+      font-size: 32px;
+      color: var(--dark-color);
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .registration-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: var(--primary-color);
+    }
+
+    .registration-form {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group.full-width {
+      grid-column: span 2;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--dark-color);
+      font-weight: 600;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      background: var(--bg-color);
+      color: var(--text-color);
+      font-family: inherit;
+      transition: var(--transition);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+    }
+
+    .form-group.required label::after {
+      content: ' *';
+      color: #e53e3e;
+    }
+
+    .submit-btn {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      grid-column: span 2;
+      justify-self: center;
+      width: 200px;
+    }
+
+    .submit-btn:hover {
+      background: var(--secondary-color);
+      transform: translateY(-2px);
     }
 
     /* Features Section */
@@ -1505,6 +1604,22 @@
         width: 280px;
       }
 
+      .registration-section {
+        padding: 40px 20px;
+      }
+
+      .registration-form {
+        grid-template-columns: 1fr;
+      }
+
+      .form-group.full-width {
+        grid-column: span 1;
+      }
+
+      .submit-btn {
+        grid-column: span 1;
+      }
+
       .features, .courses, .webinars, .news, .testimonials, .faq, .careers, .contact {
         padding: 60px 20px;
       }
@@ -1637,6 +1752,83 @@
     </div>
     <div class="hero-img">
       <img src="images/736.png" alt="Teachers" />
+    </div>
+  </section>
+
+  <!-- Registration Form Section -->
+  <section id="form" class="registration-section">
+    <div class="registration-container">
+      <h3 class="registration-title">Ready To Get Started? Register Today</h3>
+      <form class="registration-form" id="registrationForm" onsubmit="submitRegistrationForm(event)">
+        <!-- Name -->
+        <div class="form-group required">
+          <label for="regName">Name</label>
+          <input type="text" id="regName" name="name" placeholder="Your Name" required>
+        </div>
+
+        <!-- District -->
+        <div class="form-group required">
+          <label for="regDistrict">District</label>
+          <select id="regDistrict" name="district" required>
+            <option value="">Select District</option>
+            <option>Alappuzha</option>
+            <option>Ernakulam</option>
+            <option>Idukki</option>
+            <option>Kannur</option>
+            <option>Kasaragod</option>
+            <option>Kollam</option>
+            <option>Kottayam</option>
+            <option>Kozhikode</option>
+            <option>Malappuram</option>
+            <option>Palakkad</option>
+            <option>Pathanamthitta</option>
+            <option>Thiruvananthapuram</option>
+            <option>Thrissur</option>
+            <option>Wayanad</option>
+          </select>
+        </div>
+
+        <!-- Country Code -->
+        <div class="form-group required">
+          <label for="regCountryCode">Country Code</label>
+          <input type="tel" id="regCountryCode" name="countryCode" value="+91" required>
+        </div>
+
+        <!-- Phone Number -->
+        <div class="form-group required">
+          <label for="regPhone">Phone Number</label>
+          <input type="tel" id="regPhone" name="phone" placeholder="Enter phone number" required>
+        </div>
+
+        <!-- Courses -->
+        <div class="form-group required">
+          <label for="regCourse">Courses</label>
+          <select id="regCourse" name="course" required>
+            <option value="">Select Class</option>
+            <option>Entrance</option>
+            <option>Government Exams</option>
+            <option>Commerce</option>
+            <option>Tuitions</option>
+            <option>Blendx Schools</option>
+            <option>English Proficiency Tests</option>
+            <option>Digital Marketing</option>
+            <option>UPSC</option>
+            <option>Crash Courses</option>
+            <option>Repeaters Programme</option>
+          </select>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group required full-width">
+          <label for="regEmail">Email</label>
+          <input type="email" id="regEmail" name="email" placeholder="Enter valid email id" required>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-group full-width">
+          <button type="submit" class="submit-btn">Submit</button>
+        </div>
+      </form>
     </div>
   </section>
 
@@ -2133,7 +2325,7 @@
       <div class="footer-section">
         <h3>Quick Links</h3>
         <ul>
-          <li><a href="home.html">Home</a></li>
+          <li><a href="intex.html">Home</a></li>
           <li><a href="about.html">About Us</a></li>
           <li><a href="courses.html">Courses</a></li>
           <li><a href="webinars.html">Webinars</a></li>
@@ -2183,15 +2375,13 @@
         // Hide loading screen after page loads
         setTimeout(function() {
           const loadingScreen = document.getElementById('loadingScreen');
-          const mainContent = document.getElementById('mainContent');
           
           // Fade out loading screen
           loadingScreen.style.opacity = '0';
           
-          // After fade out, hide loading screen and show main content
+          // After fade out, hide loading screen
           setTimeout(function() {
             loadingScreen.style.display = 'none';
-            mainContent.classList.add('visible');
           }, 500);
         }, 1500); // Show loading screen for 1.5 seconds
         
@@ -2670,6 +2860,28 @@ function handleCall() {
 
 function handleWhatsApp() {
   window.location.href = 'https://wa.me/15551234567';
+}
+
+// Registration Form Submission
+function submitRegistrationForm(event) {
+  event.preventDefault();
+  
+  // Get form values
+  const name = document.getElementById('regName').value;
+  const district = document.getElementById('regDistrict').value;
+  const countryCode = document.getElementById('regCountryCode').value;
+  const phone = document.getElementById('regPhone').value;
+  const course = document.getElementById('regCourse').value;
+  const email = document.getElementById('regEmail').value;
+  
+  // In a real application, this would send data to a server
+  console.log('Registration form submitted:', { name, district, countryCode, phone, course, email });
+  
+  // Show success message
+  showToast('Your registration has been submitted successfully!');
+  
+  // Reset form
+  document.getElementById('registrationForm').reset();
 }
   </script>
 
